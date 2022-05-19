@@ -14,10 +14,6 @@ entryPoints:
   web-secure:
     # https
     address: ":443"
-  
-  next-app:
-    # https
-    address: ":443"
 
   flower:
     address: ":5555"
@@ -57,7 +53,7 @@ http:
     next-app-secure-router:
       rule: "Host(`classes.beeola.me`)"
       entryPoints:
-        - next-app
+        - web-secure
       service: next-app
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
