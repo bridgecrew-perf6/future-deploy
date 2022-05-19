@@ -10,6 +10,7 @@ DJANGO_ALLOWED_HOSTS=.beeola.com
 # ------------------------------------------------------------------------------
 # TIP: better off using DNS, however, redirect is OK too
 DJANGO_SECURE_SSL_REDIRECT=False
+DJANGO_ALLOWED_HOSTS=beeola.me,www.beeola.me
 
 # Email
 # ------------------------------------------------------------------------------
