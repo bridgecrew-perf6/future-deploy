@@ -39,13 +39,22 @@ http:
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
-        certResolver: letsencrypt
+        certResolver: letsencrypthttps://docs.traefik.io/master/routing/routers/#certresolver
 
     flower-secure-router:
       rule: "Host(`beeola.me`)"
       entryPoints:
         - flower
       service: flower
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+    
+    next-secure-router:
+      rule: "Host(`classes.beeola.me`)"
+      entryPoints:
+        - web-secure
+      service: next-app
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
@@ -67,6 +76,11 @@ http:
       loadBalancer:
         servers:
           - url: http://flower:5555
+
+    next-app:
+      loadBalancer:
+        servers:
+          - url: http://next-app:3000
 
 providers:
   # https://docs.traefik.io/master/providers/file/
