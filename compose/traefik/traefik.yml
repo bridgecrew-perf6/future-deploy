@@ -39,7 +39,7 @@ http:
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
-        certResolver: letsencrypthttps://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
 
     flower-secure-router:
       rule: "Host(`beeola.me`)"
