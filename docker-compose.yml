@@ -18,7 +18,9 @@ services:
     command: /start
 
   postgres:
-    image: registry.gitlab.com/gbozee/future-project/db:latest
+    build:
+      context: .
+      dockerfile: ./compose/postgres/Dockerfile
     volumes:
       - production_postgres_data:/var/lib/postgresql/data:Z
       - production_postgres_data_backups:/backups:z
@@ -26,7 +28,9 @@ services:
       - ./.envs/.production/.postgres
 
   traefik:
-    image: registry.gitlab.com/gbozee/future-project/lb:latest
+    build:
+      context: .
+      dockerfile: ./compose/traefik/Dockerfile
     depends_on:
       - django
     volumes:
