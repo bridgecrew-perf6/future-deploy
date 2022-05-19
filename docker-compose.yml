@@ -1,0 +1,52 @@
+version: '3'
+
+volumes:
+  production_postgres_data: {}
+  production_postgres_data_backups: {}
+  production_traefik: {}
+
+services:
+  django: &django
+    image: registry.gitlab.com/gbozee/future-project:latest
+    platform: linux/x86_64
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    command: /start
+
+  postgres:
+    image: registry.gitlab.com/gbozee/future-project/db:latest
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data:Z
+      - production_postgres_data_backups:/backups:z
+    env_file:
+      - ./.envs/.production/.postgres
+
+  traefik:
+    image: registry.gitlab.com/gbozee/future-project/lb:latest
+    depends_on:
+      - django
+    volumes:
+      - production_traefik:/etc/traefik/acme:z
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+      - "0.0.0.0:5555:5555"
+
+  redis:
+    image: redis:6
+
+  celeryworker:
+    <<: *django
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    command: /start-flower
