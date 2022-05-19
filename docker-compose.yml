@@ -58,5 +58,5 @@ services:
   next-app:
     image: registry.gitlab.com/tuteria/tutor-frontend-app/next-app:${DEV_DEPLOY_VERSION:-latest}
     env_file:
-      - ./.envs/production/.next
+      - ./.envs/.production/.next
     restart: always
